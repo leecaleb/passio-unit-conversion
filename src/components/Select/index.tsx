@@ -1,27 +1,11 @@
 import * as React from 'react'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 
 type SelectWithLabelProps = {
     units?: string,
     style?: object,
     handleChange?: (event: SelectChangeEvent<string>, child: React.ReactNode) => void | undefined
 }
-
-const useStyles = makeStyles({
-    select: {
-        '&:before': {
-            borderColor: 'white',
-        },
-        '&:after': {
-            borderColor: 'white',
-        }
-    },
-    icon: {
-        fill: 'white',
-    },
-});
-
 export const SelectWithLabel = ({ units="", style={}, handleChange }: SelectWithLabelProps) => {
     return (
         <FormControl
@@ -44,7 +28,7 @@ export const SelectWithLabel = ({ units="", style={}, handleChange }: SelectWith
             </InputLabel>
             <Select
                 labelId="select-filled-label"
-                id="select-filled"
+                data-testid="select-filled"
                 value={units}
                 label="Units"
                 onChange={handleChange}

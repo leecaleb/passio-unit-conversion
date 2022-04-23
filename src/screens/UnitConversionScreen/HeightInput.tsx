@@ -25,7 +25,12 @@ const HeightInput = ({ units="" }: HeightInputProps, ref: Ref<RefObject>) => {
             setValue(value ? "" + Math.floor(imperialValue) : "")
             setInchValue("" + (imperialValue % 1) * 12)
         } else {
-            const metricValue = (parseFloat(value)+parseFloat(inchValue)/12) * 0.3048
+            let metricValue
+            if (!isNaN(parseFloat(inchValue))) {
+                metricValue = (parseFloat(value)+parseFloat(inchValue)/12) * 0.3048
+            } else {
+                metricValue = parseFloat(value) * 0.3048
+            }
             setValue(value ? "" + metricValue : "")
         }
     }, [units])

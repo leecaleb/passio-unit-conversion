@@ -9,22 +9,13 @@ const useStyles = makeStyles({
     root: {
         display: 'flex !important',
         flexDirection: 'column',
-        // justifyContent: 'space-between',
 		paddingTop: 50
-        // height: '96vh',
-        // backgroundColor: 'beige'
-        // backgroundImage: 'url(https://static.wixstatic.com/media/973abe_3de4a3dda2d6432ba2d560f68ed0ad7f~mv2.png/v1/fill/w_1118,h_550,al_c,enc_auto/973abe_3de4a3dda2d6432ba2d560f68ed0ad7f~mv2.png)',
-        // backgroundSize: 'cover',
-        // backgroundRepeat: 'no-repeat'
     },
     grid: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 20,
-        // borderWidth: 1,
-        // borderStyle: 'solid',
-        // borderColor: 'black',
     },
     header: {
         display: 'flex',
@@ -41,7 +32,7 @@ const useStyles = makeStyles({
     }
 });
 
-const UnitConverstionScreen = () => {
+const UnitConversionScreen = () => {
     const classes = useStyles();
     const [units, setUnits] = useState("imperial")
     const [loadingCache, setLoadingCache] = useState(true)
@@ -68,20 +59,9 @@ const UnitConverstionScreen = () => {
         const cachedUnits = localStorage.getItem('units')
         if (cachedUnits !== null) {
             setUnits(cachedUnits)
-            setLoadingCache(false)
         }
+        setLoadingCache(false)
     }, [])
-
-    const Loading = () => {
-        if (!loadingCache) {
-            return null
-        }
-        return (
-            <Grid className={classes.loadingCircle}>
-                <CircularProgress style={{ color: 'rgba(255,255,255,0.3)' }} />
-            </Grid>
-        )
-    }
 
     return (
         <Container maxWidth="md" className={classes.root}>
@@ -95,7 +75,9 @@ const UnitConverstionScreen = () => {
                 </Typography>
             </Box>
 
-            <Loading />
+            {!!loadingCache && <Grid className={classes.loadingCircle}>
+                <CircularProgress style={{ color: 'rgba(255,255,255,0.3)' }} />
+            </Grid>}
 
             {!loadingCache && <div>
                 <Grid container>
@@ -125,4 +107,4 @@ const UnitConverstionScreen = () => {
     )
 }
 
-export default UnitConverstionScreen;
+export default UnitConversionScreen;

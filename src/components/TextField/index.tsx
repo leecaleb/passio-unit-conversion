@@ -15,16 +15,14 @@ export const NumericTextField = ({ label="", style={}, value="", InputProps={}, 
             label={label}
             id="outlined-end-adornment"
             variant="filled"
-            //   color="info"
             sx={{
                 backgroundColor: 'rgba(0,0,0,0.2)',
                 '& .MuiFilledInput-underline:after': { borderBottomColor: 'rgba(255,255,255,0.6)' },
                 ...style
             }}
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', style: {color: 'rgba(255,255,255,0.7)'} }}
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', style: {color: 'rgba(255,255,255,0.7)'}, "data-testid": label, }}
             InputProps={InputProps}
-            InputLabelProps={{ 
-                // shrink: value !== "", 
+            InputLabelProps={{
                 sx: { 
                     color: 'rgba(255,255,255,0.5)',
                     '&.Mui-focused': { color: 'rgba(255,255,255,0.6)'} 

@@ -6,11 +6,9 @@ const useStyles = makeStyles({
     root: {
 		display: 'flex',
         height: '98vh',
-        // backgroundColor: 'beige'
         backgroundImage: 'url(https://static.wixstatic.com/media/973abe_3de4a3dda2d6432ba2d560f68ed0ad7f~mv2.png/v1/fill/w_1118,h_550,al_c,enc_auto/973abe_3de4a3dda2d6432ba2d560f68ed0ad7f~mv2.png)',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-		// opacity: 1
     },
 });
 
