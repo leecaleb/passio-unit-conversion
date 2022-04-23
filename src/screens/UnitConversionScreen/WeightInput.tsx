@@ -4,18 +4,21 @@ import { useState, useEffect, Ref, forwardRef, useImperativeHandle } from 'react
 import { NumericTextField } from '../../components/TextField';
 
 type WeightInputProps = {
-    units: string
+    units: string,
+    invalidWeightValue: boolean
 }
 
 interface RefObject {
-    cacheInput: () => void
+    cacheInput: () => void,
+    value: string
 }
 
-const WeightInput = ({ units="" }: WeightInputProps, ref: Ref<RefObject>) => {
+const WeightInput = ({ units="", invalidWeightValue=false }: WeightInputProps, ref: Ref<RefObject>) => {
     const [value, setValue] = useState("")
 
     useImperativeHandle(ref, () => ({
         cacheInput,
+        value
     }));
     
     useEffect(() => {
@@ -46,6 +49,8 @@ const WeightInput = ({ units="" }: WeightInputProps, ref: Ref<RefObject>) => {
             InputProps={{
                 endAdornment: <InputAdornment position="end" sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.6)' } }}>{units === "metric" ? "kg(s)" : "lb(s)"}</InputAdornment>,
             }}
+            error={invalidWeightValue}
+            helperText={invalidWeightValue ? "Invalid Value" : ""}
         />
     )
 }

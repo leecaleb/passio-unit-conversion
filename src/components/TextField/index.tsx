@@ -5,11 +5,21 @@ type NumericTextFieldProps = {
     label?: string,
     style?: object,
     value?: string,
+    error?: boolean,
+    helperText?: string,
     InputProps?: object,
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const NumericTextField = ({ label="", style={}, value="", InputProps={}, onChange }: NumericTextFieldProps) => {
+export const NumericTextField = ({ 
+    label="", 
+    style={}, 
+    value="", 
+    error=false, 
+    helperText="", 
+    InputProps={}, 
+    onChange 
+}: NumericTextFieldProps) => {
     return (
         <TextField
             label={label}
@@ -29,6 +39,8 @@ export const NumericTextField = ({ label="", style={}, value="", InputProps={}, 
                 }
             }}
             value={value}
+            error={error}
+            helperText={helperText}
             onChange={onChange}
         />
     )

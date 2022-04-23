@@ -4,26 +4,32 @@ import { useState, useEffect, useImperativeHandle, Ref, forwardRef } from 'react
 import { NumericTextField } from '../../components/TextField';
 
 type HeightInputProps = {
-    units: string
+    units: string,
+    invalidHeightValue: boolean,
+    invalidHeightInchValue: boolean
 }
 
 interface RefObject {
-    cacheInput: () => void
+    cacheInput: () => void,
+    value: string,
+    inchValue: string
 }
 
-const HeightInput = ({ units="" }: HeightInputProps, ref: Ref<RefObject>) => {
+const HeightInput = ({ units="", invalidHeightValue=false, invalidHeightInchValue=false }: HeightInputProps, ref: Ref<RefObject>) => {
     const [value, setValue] = useState("")
     const [inchValue, setInchValue] = useState("")
 
     useImperativeHandle(ref, () => ({
         cacheInput,
+        value,
+        inchValue
     }));
     
     useEffect(() => {
         if (units === 'imperial') {
             const imperialValue = parseFloat(value) * 3.28084
             setValue(value ? "" + Math.floor(imperialValue) : "")
-            setInchValue("" + (imperialValue % 1) * 12)
+            setInchValue(value ? "" + (imperialValue % 1) * 12 : "")
         } else {
             let metricValue
             if (!isNaN(parseFloat(inchValue))) {
@@ -65,6 +71,8 @@ const HeightInput = ({ units="" }: HeightInputProps, ref: Ref<RefObject>) => {
                 style={{ m: 1, minWidth: 300 }}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
+                error={invalidHeightValue}
+                helperText={invalidHeightValue ? "Invalid Value" : ""}
                 InputProps={{
                     endAdornment: <InputAdornment position="end" sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.6)' } }}>{units === "metric" ? "m(s)" : "ft"}</InputAdornment>,
                 }}
@@ -74,6 +82,8 @@ const HeightInput = ({ units="" }: HeightInputProps, ref: Ref<RefObject>) => {
                 style={{ m: 1, minWidth: 300 }}
                 value={inchValue}
                 onChange={(e) => setInchValue(e.target.value)}
+                error={invalidHeightInchValue}
+                helperText={invalidHeightInchValue ? "Invalid Value" : ""}
                 InputProps={{
                     endAdornment: <InputAdornment position="end" sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.6)' } }}>{"in"}</InputAdornment>,
                 }}

@@ -36,11 +36,30 @@ const UnitConversionScreen = () => {
     const classes = useStyles();
     const [units, setUnits] = useState("imperial")
     const [loadingCache, setLoadingCache] = useState(true)
-    const WeightInputRef = useRef<{cacheInput: () => void}>(null);
-    const HeightInputRef = useRef<{cacheInput: () => void}>(null);
+    const [invalidWeightValue, setInvalidWeightValue] = useState(false)
+    const [invalidHeightValue, setInvalidHeightValue] = useState(false)
+    const [invalidHeightInchValue, setInvalidHeightInchValue] = useState(false)
+    const WeightInputRef = useRef<{cacheInput: () => void, value: string}>(null)
+    const HeightInputRef = useRef<{cacheInput: () => void, value: string, inchValue: string}>(null)
 
     const handleChange = (e: SelectChangeEvent<string>) => {
-        setUnits(e.target.value)
+        
+        const validWeightInput = validateInput(WeightInputRef.current?.value)
+        const validHeightInput = validateInput(HeightInputRef.current?.value)
+        const validHeightInchInput = validateInput(HeightInputRef.current?.inchValue)
+        
+        setInvalidWeightValue(!validWeightInput)
+        setInvalidHeightValue(!validHeightInput)
+        setInvalidHeightInchValue(!validHeightInchInput)
+        
+        if(validWeightInput && validHeightInput && validHeightInchInput) {
+            setUnits(e.target.value)
+        }
+    }
+
+    const validateInput = (value: string | undefined) => {
+        if (!value) return true
+        return /^-?\d*(\.\d+)?$/.test(value);
     }
 
     const cacheInputValues = () => {
@@ -82,10 +101,17 @@ const UnitConversionScreen = () => {
             {!loadingCache && <div>
                 <Grid container>
                     <Grid item xs={12} md={12} className={classes.grid}>
-                        <WeightInput ref={WeightInputRef} units={units} />
+                        <WeightInput
+                            ref={WeightInputRef}
+                            units={units}
+                            invalidWeightValue={invalidWeightValue}/>
                     </Grid>
                     <Grid item xs={12} md={12} className={classes.grid}>
-                        <HeightInput ref={HeightInputRef} units={units} />
+                        <HeightInput
+                            ref={HeightInputRef}
+                            units={units}
+                            invalidHeightValue={invalidHeightValue}
+                            invalidHeightInchValue={invalidHeightInchValue}/>
                     </Grid>
                     <Grid item xs={12} md={12} className={classes.grid}>
                         <SelectWithLabel
